@@ -69,5 +69,6 @@ bool Song::operator>(Song const &song) {
 bool Song::operator==(Song const &song) {
     return (artist == song.getArtist()) && (title == song.getTitle()) && (size == song.getSize());
 }
+Song::~Song() = default;
 
 
