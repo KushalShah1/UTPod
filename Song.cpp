@@ -69,6 +69,17 @@ bool Song::operator>(Song const &song) {
 bool Song::operator==(Song const &song) {
     return (artist == song.getArtist()) && (title == song.getTitle()) && (size == song.getSize());
 }
+
+void Song::swap(Song &s2) {
+    Song temp=Song(s2);
+    s2.size=size;
+    s2.title=title;
+    s2.artist=artist;
+
+    size=temp.size;
+    artist=temp.artist;
+    title=temp.title;
+}
 Song::~Song() = default;
 
 
