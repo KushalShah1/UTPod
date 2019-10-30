@@ -28,7 +28,7 @@ int main(int argc, char *argv[]){
     ofstream myfile;
     myfile.open(argv[1], std::ios_base::app);
     while(temp!="-1"){
-        getline(cin,temp);
+        getline(cin,temp);      //gets input from user and writes it to file
         if(myfile.is_open() && temp!="-1")
             myfile<<temp<<endl;
     }
@@ -38,7 +38,7 @@ int main(int argc, char *argv[]){
     if(inputFile.is_open()){
         Song song;
         while(inputFile>>temp){
-            song.setTitle(temp);
+            song.setTitle(temp);    //gets input from file
             inputFile>>temp;
             song.setArtist(temp);
             inputFile>>temp;
@@ -48,27 +48,27 @@ int main(int argc, char *argv[]){
             cout<<"Remaining Memory- "<<music.getRemainingMemory()<<endl;
         }
         cout<<"-----------------------"<<endl;
+        music.showSongList();//initial list
+        cout<<"-----------------------"<<endl;
+        music.shuffle();//suffles the list
         music.showSongList();
         cout<<"-----------------------"<<endl;
-        music.shuffle();
+        music.sortSongList();//sorts the list
         music.showSongList();
         cout<<"-----------------------"<<endl;
-        music.sortSongList();
+        music.sortSongList();//sorts again to validate sort works
         music.showSongList();
         cout<<"-----------------------"<<endl;
-        music.sortSongList();
-        music.showSongList();
-        cout<<"-----------------------"<<endl;
-        music.removeSong(Song("Song","artist",32));
+        music.removeSong(Song("Song","artist",32));//remove songs
         music.removeSong(Song("Song","artist",32));
         music.removeSong(Song("Song","Artist",89));
         music.removeSong(Song("Bsong","ist",90));
         music.showSongList();
         cout<<"-----------------------"<<endl;
-        music.shuffle();
+        music.shuffle();//suffles again
         music.showSongList();
         cout<<"-----------------------"<<endl;
-        music.clearMemory();
+        music.clearMemory();//clears and ensures every function works with an empty list
         music.sortSongList();
         music.shuffle();
         music.removeSong(Song("Bsong","ist",90));
