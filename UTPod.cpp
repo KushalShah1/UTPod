@@ -1,15 +1,17 @@
 //
-// Created by kusha on 10/23/2019.
+// Created by jayan on 10/29/2019.
 //
 
 #include "UTPod.h"
-#include <iostream>
 #include <ctime>
+#include <iostream>
+#include "Song.h"
+
 
 UtPod::UtPod() {
     memSize=MAX_MEMORY;
     songs=nullptr;
-    srand(time(0));
+    srand(time(nullptr));
 }
 
 UtPod::UtPod(int size) {
@@ -33,8 +35,8 @@ int UtPod::addSong(Song const &s) {
 }
 int UtPod::removeSong(Song const &s) {
     SongNode* temp=songs;
-    SongNode* previousNode=nullptr;
-    while(temp!=nullptr){
+    SongNode* previousNode=songs;
+    while(temp!=NULL){
         if(temp->s==s){
             previousNode->next=temp->next;
             delete(temp);
@@ -48,7 +50,8 @@ int UtPod::removeSong(Song const &s) {
 
 void UtPod::showSongList() {
     SongNode* temp=songs;
-    while(temp!=NULL){
+
+    while(temp!=nullptr){
         cout<<temp->s.getTitle()<<", "<<temp->s.getArtist()<<", "<<temp->s.getSize()<<endl;
         temp=temp->next;
     }
@@ -70,15 +73,65 @@ void UtPod::clearMemory() {
 UtPod::~UtPod() {
     this->clearMemory();
 }
+
+void UtPod::shuffle(){
+//count number of songs by traversing linked list (write a separate function that can be used for get remaining)
+SongNode* tempHead = songs;
+int songCount = 0;
+while(tempHead != NULL){
+    //cout << tempHead->s << "\n";
+    tempHead = tempHead->next;
+    songCount++;
+}
+//cout << songCount<<endl;
+//idea is to have the rng get 2 nums b/w 1 and the num of songs
+for(int i = 0; i<(2*songCount);i++){
+    int randNum1 = (rand()%songCount);
+    int randNum2 = (rand()%songCount);
+    SongNode* ptr1 = songs;
+    SongNode* ptr2 = songs;
+    while(randNum1>0){
+        ptr1 = ptr1->next;
+        randNum1--;
+    }
+    while(randNum2>0){
+        ptr2 = ptr2->next;
+        randNum2--;
+    }
+    ptr1->s.swap(ptr2->s);
+}
+//add these nums to the head of the file to get to two diff songs
+//swap the songs
+//repeat 2x the num of songs
+
+}
+
+void UtPod::sortSongList() {
+//idea is to have nested loops
+//first song is smallest by default, traverse linked list to check if song x > s1 and swap if not
+//once this is true, song 2 is smallest and repeat till the second last song
+
+    SongNode* i = songs;
+        while(i!=NULL){
+            SongNode* j = i;
+            SongNode* minimun= i;
+            while(j!=NULL){
+                if (minimun->s>j->s){
+                    minimun=j;
+                }
+                j=j->next;
+            }
+            i->s.swap(minimun->s);
+            i=i->next;
+        }
+}
+
 int UtPod::getRemainingMemory() {
+//traverse linked list to get its size
+//return memSize - size
     int totalMem=0;
     for (SongNode* p= songs; p != NULL; p=p->next){
         totalMem+=p->s.getSize();
     }
     return memSize-totalMem;
 }
-
-
-
-
-
