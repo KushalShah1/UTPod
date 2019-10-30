@@ -52,11 +52,10 @@ int UtPod::removeSong(Song const &s) {
 
 void UtPod::showSongList() {
     SongNode* temp=songs;
-    while(temp!=NULL){
-        cout<<temp->s.getTitle()<<", "<<temp->s.getArtist()<<", "<<temp->s.getSize()<<endl;
-        temp=temp->next;
+    while(temp!=NULL) {
+        cout << temp->s.getTitle() << ", " << temp->s.getArtist() << ", " << temp->s.getSize() << endl;
+        temp = temp->next;
     }
-    cout<<"-------------------------------"<<endl;
 }
 void UtPod::clearMemory() {
     SongNode* temp=songs;
@@ -125,7 +124,7 @@ void UtPod::sortSongList() {
         SongNode* j = i;
         SongNode* minimun= i;
         while(j!=NULL){
-            if (minimun->s>j->s){
+            if (minimun->s<j->s){
                 minimun=j;
             }
             j=j->next;

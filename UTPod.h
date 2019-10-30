@@ -19,7 +19,7 @@ class UtPod
          SongNode *next;
       };
 
-      SongNode *songs;  //the head pointer
+      SongNode *songs{};  //the head pointer
 
       int memSize;
 

@@ -11,6 +11,8 @@ You will want to do more complete testing.
 
 */
 #include <cstdlib>
+#include <stdlib.h>
+#include <string>
 #include <iostream>
 #include <fstream>
 #include "Song.h"
@@ -21,8 +23,17 @@ using namespace std;
 int main(int argc, char *argv[]){
 
     string temp;
-    ifstream inputFile("C:\\Users\\kusha\\Desktop\\312\\UTPod\\testEntries");
     UtPod music= UtPod(512);
+
+    ofstream myfile;
+    myfile.open(argv[1], std::ios_base::app);
+    while(temp!="-1"){
+        getline(cin,temp);
+        if(myfile.is_open() && temp!="-1")
+            myfile<<temp<<endl;
+    }
+    myfile.close();
+    ifstream inputFile(argv[1]);
 
     if(inputFile.is_open()){
         Song song;
@@ -36,8 +47,33 @@ int main(int argc, char *argv[]){
             cout<<song.getTitle()<<" Success- "<<music.addSong(song)<<endl;
             cout<<"Remaining Memory- "<<music.getRemainingMemory()<<endl;
         }
-        cout<<
+        cout<<"-----------------------"<<endl;
         music.showSongList();
+        cout<<"-----------------------"<<endl;
+        music.shuffle();
+        music.showSongList();
+        cout<<"-----------------------"<<endl;
+        music.sortSongList();
+        music.showSongList();
+        cout<<"-----------------------"<<endl;
+        music.sortSongList();
+        music.showSongList();
+        cout<<"-----------------------"<<endl;
+        music.removeSong(Song("Song","artist",32));
+        music.removeSong(Song("Song","artist",32));
+        music.removeSong(Song("Song","Artist",89));
+        music.removeSong(Song("Bsong","ist",90));
+        music.showSongList();
+        cout<<"-----------------------"<<endl;
+        music.shuffle();
+        music.showSongList();
+        cout<<"-----------------------"<<endl;
+        music.clearMemory();
+        music.sortSongList();
+        music.shuffle();
+        music.removeSong(Song("Bsong","ist",90));
+        music.showSongList();
+        cout<<"-----------------------"<<endl;
     }
 
 
