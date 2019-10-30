@@ -67,18 +67,13 @@ bool Song::operator>(Song const &song) {
         return false;
 }
 bool Song::operator==(Song const &song) {
-    return (artist == song.getArtist()) && (title == song.getTitle()) && (size == song.getSize());
+    return (artist == song.artist) && (title == song.title) && (size == song.size);
 }
 
 void Song::swap(Song &s2) {
-    Song temp=Song(s2);
-    s2.size=size;
-    s2.title=title;
-    s2.artist=artist;
-
-    size=temp.size;
-    artist=temp.artist;
-    title=temp.title;
+    Song temp=s2;
+    s2=*this;
+    *this=temp;
 }
 Song::~Song() = default;
 

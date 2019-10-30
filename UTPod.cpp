@@ -1,17 +1,15 @@
 //
-// Created by jayan on 10/29/2019.
+// Created by kusha on 10/23/2019.
 //
 
 #include "UTPod.h"
-#include <ctime>
 #include <iostream>
-#include "Song.h"
-
+#include <ctime>
 
 UtPod::UtPod() {
     memSize=MAX_MEMORY;
     songs=nullptr;
-    srand(time(nullptr));
+    srand(time(0));
 }
 
 UtPod::UtPod(int size) {
@@ -38,6 +36,7 @@ int UtPod::removeSong(Song const &s) {
     SongNode* previousNode=songs;
     while(temp!=NULL){
         if(temp->s==s){
+            cout<<temp->s.getArtist()<<endl;
             previousNode->next=temp->next;
             delete(temp);
             return SUCCESS;
@@ -50,8 +49,7 @@ int UtPod::removeSong(Song const &s) {
 
 void UtPod::showSongList() {
     SongNode* temp=songs;
-
-    while(temp!=nullptr){
+    while(temp!=NULL){
         cout<<temp->s.getTitle()<<", "<<temp->s.getArtist()<<", "<<temp->s.getSize()<<endl;
         temp=temp->next;
     }
@@ -73,33 +71,40 @@ void UtPod::clearMemory() {
 UtPod::~UtPod() {
     this->clearMemory();
 }
+int UtPod::getRemainingMemory() {
+    int totalMem=0;
+    for (SongNode* p= songs; p != NULL; p=p->next){
+        totalMem+=p->s.getSize();
+    }
+    return memSize-totalMem;
+}
 
 void UtPod::shuffle(){
 //count number of songs by traversing linked list (write a separate function that can be used for get remaining)
-SongNode* tempHead = songs;
-int songCount = 0;
-while(tempHead != NULL){
-    //cout << tempHead->s << "\n";
-    tempHead = tempHead->next;
-    songCount++;
-}
+    SongNode* tempHead = songs;
+    int songCount = 0;
+    while(tempHead != NULL){
+        //cout << tempHead->s << "\n";
+        tempHead = tempHead->next;
+        songCount++;
+    }
 //cout << songCount<<endl;
 //idea is to have the rng get 2 nums b/w 1 and the num of songs
-for(int i = 0; i<(2*songCount);i++){
-    int randNum1 = (rand()%songCount);
-    int randNum2 = (rand()%songCount);
-    SongNode* ptr1 = songs;
-    SongNode* ptr2 = songs;
-    while(randNum1>0){
-        ptr1 = ptr1->next;
-        randNum1--;
+    for(int i = 0; i<(2*songCount);i++){
+        int randNum1 = (rand()%songCount);
+        int randNum2 = (rand()%songCount);
+        SongNode* ptr1 = songs;
+        SongNode* ptr2 = songs;
+        while(randNum1>0){
+            ptr1 = ptr1->next;
+            randNum1--;
+        }
+        while(randNum2>0){
+            ptr2 = ptr2->next;
+            randNum2--;
+        }
+        ptr1->s.swap(ptr2->s);
     }
-    while(randNum2>0){
-        ptr2 = ptr2->next;
-        randNum2--;
-    }
-    ptr1->s.swap(ptr2->s);
-}
 //add these nums to the head of the file to get to two diff songs
 //swap the songs
 //repeat 2x the num of songs
@@ -112,26 +117,20 @@ void UtPod::sortSongList() {
 //once this is true, song 2 is smallest and repeat till the second last song
 
     SongNode* i = songs;
-        while(i!=NULL){
-            SongNode* j = i;
-            SongNode* minimun= i;
-            while(j!=NULL){
-                if (minimun->s>j->s){
-                    minimun=j;
-                }
-                j=j->next;
+    while(i!=NULL){
+        SongNode* j = i;
+        SongNode* minimum= i;
+        while(j!=NULL){
+            if (minimum->s>j->s){
+                minimum=j;
             }
-            i->s.swap(minimun->s);
-            i=i->next;
+            j=j->next;
         }
+        i->s.swap(minimum->s);
+        i=i->next;
+    }
 }
 
-int UtPod::getRemainingMemory() {
-//traverse linked list to get its size
-//return memSize - size
-    int totalMem=0;
-    for (SongNode* p= songs; p != NULL; p=p->next){
-        totalMem+=p->s.getSize();
-    }
-    return memSize-totalMem;
-}
+
+
+
